@@ -1,39 +1,71 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
+import './WeatherComponent.css';
 
-const WeatherComponent = () => {
+const WeatherComponent = ({ city }) => {
   const [weatherData, setWeatherData] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Modify the API URL to be relative because of the proxy in package.json
-  const API_URL = `/info`; // The proxy will automatically point this to http://esp32-weather.local
+  const API_URL = `/info?city=${city || "Mainpuri"}`;
 
   const fetchWeather = async () => {
     try {
       const response = await axios.get(API_URL);
-      setWeatherData(response.data);
+      if (!response.data || !response.data.temperature || !response.data.humidity) {
+        throw new Error("Malformed weather data received");
+      }
+
+      // Only update state if data has changed
+      if (
+        !weatherData ||
+        weatherData.temperature !== response.data.temperature ||
+        weatherData.humidity !== response.data.humidity
+      ) {
+        setWeatherData(response.data);
+        setError(null);
+      }
     } catch (error) {
       setError(error.message || "Failed to fetch weather data");
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
+    // Fetch weather data immediately when the component mounts
     fetchWeather();
-  }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+    // Set interval to fetch weather data every second (1000ms)
+    const intervalId = setInterval(fetchWeather, 1000);
+
+    // Cleanup interval on component unmount
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [city]); // Re-run the effect when the city prop changes
+
+  if (error) return <div className="error-message">Error: {error}</div>;
 
   return (
-    <div style={{ textAlign: "center", fontFamily: "Arial, sans-serif" }}>
-      <h1>Weather Information</h1>
-      <h2>Temperature: {weatherData.temperature}°C</h2>
-      <p>Humidity: {weatherData.humidity}%</p>
+    <div className="weather-container">
+      <h1 className="weather-title">Weather Information</h1>
+      {weatherData ? (
+        <div className="weather-details">
+          <h2 className="temperature">Temperature: {weatherData.temperature}°C</h2>
+          <h2 className="humidity">Humidity: {weatherData.humidity}%</h2>
+        </div>
+      ) : (
+        <div className="no-data-message">Fetching weather data...</div>
+      )}
     </div>
   );
+};
+
+WeatherComponent.propTypes = {
+  city: PropTypes.string,
+};
+
+WeatherComponent.defaultProps = {
+  city: "Mainpuri",
 };
 
 export default WeatherComponent;
