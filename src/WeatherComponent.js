@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import PropTypes from "prop-types";
 import './WeatherComponent.css';
 
-const WeatherComponent = ({ city }) => {
+const WeatherComponent = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [error, setError] = useState(null);
 
-  const API_URL = `/info?city=${city || "Mainpuri"}`;
+  const API_URL = "/info"; // API endpoint without city parameter
 
   const fetchWeather = async () => {
     try {
@@ -34,14 +33,14 @@ const WeatherComponent = ({ city }) => {
     // Fetch weather data immediately when the component mounts
     fetchWeather();
 
-    // Set interval to fetch weather data every second (1000ms)
-    const intervalId = setInterval(fetchWeather, 1000);
+    // Set interval to fetch weather data every 10 seconds
+    const intervalId = setInterval(fetchWeather, 10000);
 
     // Cleanup interval on component unmount
     return () => {
       clearInterval(intervalId);
     };
-  }, [city]); // Re-run the effect when the city prop changes
+  }, []); // Dependency array is empty as city is removed
 
   if (error) return <div className="error-message">Error: {error}</div>;
 
@@ -58,14 +57,6 @@ const WeatherComponent = ({ city }) => {
       )}
     </div>
   );
-};
-
-WeatherComponent.propTypes = {
-  city: PropTypes.string,
-};
-
-WeatherComponent.defaultProps = {
-  city: "Mainpuri",
 };
 
 export default WeatherComponent;
