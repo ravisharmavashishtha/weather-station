@@ -22,41 +22,32 @@ const WeatherComponent = () => {
         weatherData.humidity !== response.data.humidity
       ) {
         setWeatherData(response.data);
-        setError(null);
       }
     } catch (error) {
-      setError(error.message || "Failed to fetch weather data");
+      setError(error.message);
     }
   };
 
   useEffect(() => {
-    // Fetch weather data immediately when the component mounts
     fetchWeather();
-
-    // Set interval to fetch weather data every 10 seconds
-    const intervalId = setInterval(fetchWeather, 10000);
-
-    // Cleanup interval on component unmount
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []); // Dependency array is empty as city is removed
-
-  if (error) return <div className="error-message">Error: {error}</div>;
+  }, []);
 
   return (
     <div className="weather-container">
-      <h1 className="weather-title">Weather Information</h1>
-      {weatherData ? (
-        <div className="weather-details">
-          <h2 className="temperature">Temperature: {weatherData.temperature}°C</h2>
-          <h2 className="humidity">Humidity: {weatherData.humidity}%</h2>
+      {error ? (
+        <div className="error-message">{error}</div>
+      ) : weatherData ? (
+        <div className="weather-data">
+          <h2>Current Weather</h2>
+          <p>Temperature: {weatherData.temperature}°C</p>
+          <p>Humidity: {weatherData.humidity}%</p>
         </div>
       ) : (
-        <div className="no-data-message">Fetching weather data...</div>
+        <div className="loading-message">Loading...</div>
       )}
     </div>
   );
 };
 
 export default WeatherComponent;
+
