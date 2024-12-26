@@ -2,117 +2,164 @@
 
 /* Main container style */
 .weather-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* Align items from the top */
-    align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #76c7c0, #2f89a1); /* Gradient background */
-    color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 15px;
-    text-align: center; /* Center text horizontally */
-  }
-  
-  /* Title styling */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #4facfe, #00f2fe); /* Updated gradient background */
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  max-width: 400px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.weather-container:hover {
+  transform: scale(1.05);
+}
+
+/* Title styling */
+.weather-title {
+  font-size: 1.5rem; /* Increased font size for readability on mobile */
+  font-weight: bold;
+  margin-bottom: 20px; /* Space between title and details */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  line-height: 1.3;
+  margin-top: 20px; /* Give some space at the top */
+}
+
+/* Styling for temperature and humidity */
+.weather-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1; /* Allow the details to grow and be centered vertically */
+  padding: 20px;
+}
+
+.temperature {
+  font-size: 1.5rem; /* Larger font size for temperature on mobile */
+  font-weight: bold;
+  margin: 10px 0;
+  color: #fcfdfe; /* Warm color for temperature */
+}
+
+.humidity {
+  font-size: 1.5rem; /* Larger font size for humidity on mobile */
+  color: #fcfdfe; /* Cool color for humidity */
+}
+
+/* Error message styling */
+.error-message {
+  color: #ff6b6b;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-top: 20px;
+}
+
+/* Loading spinner styles */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #f39c12;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Desktop and Tablet views: Larger screens */
+@media (min-width: 600px) {
   .weather-title {
-    font-size: 1.5rem; /* Increased font size for readability on mobile */
-    font-weight: bold;
-    margin-bottom: 20px; /* Space between title and details */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    line-height: 1.3;
-    margin-top: 20px; /* Give some space at the top */
+    font-size: 2.5rem; /* Larger title for medium screens */
   }
-  
-  /* Styling for temperature and humidity */
-  .weather-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1; /* Allow the details to grow and be centered vertically */
-    padding: 20px;
-  }
-  
+
   .temperature {
-    font-size: 1.5rem; /* Larger font size for temperature on mobile */
-    font-weight: bold;
-    margin: 10px 0;
-    color: #fcfdfe; /* Warm color for temperature */
+    font-size: 2.5rem; /* Larger temperature for medium screens */
   }
-  
+
   .humidity {
-    font-size: 1.5rem; /* Larger font size for humidity on mobile */
-    color: #fcfdfe; /* Cool color for humidity */
+    font-size: 2.5rem; /* Larger humidity text for medium screens */
   }
-  
-  /* Error message styling */
-  .error-message {
-    color: #e74c3c;
-    font-size: 1.5rem;
-    margin-top: 20px;
+}
+
+@media (min-width: 1024px) {
+  .weather-container {
+    max-width: 4000px; /* Increase max-width for better container size on large screens */
+    margin: 0 auto; /* Center the container */
+    padding: 30px;
   }
-  
-  /* Loading spinner styles */
-  .loading-spinner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+
+  .weather-title {
+    font-size: 3rem; /* Larger title for desktop screens */
   }
-  
+
+  .temperature {
+    font-size: 3rem; /* Larger temperature for desktop screens */
+  }
+
+  .humidity {
+    font-size: 3rem; /* Larger humidity text for desktop screens */
+  }
+
+  /* Loading spinner adjustments for larger screens */
   .spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #f39c12;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 2s linear infinite;
+    width: 80px;
+    height: 80px;
   }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+}
+
+.weather-data {
+  text-align: center;
+}
+
+.weather-data h2 {
+  margin-bottom: 15px;
+  font-size: 2em;
+  font-weight: 600;
+}
+
+.weather-data p {
+  margin: 10px 0;
+  font-size: 1.2em;
+  font-weight: 400;
+}
+
+.loading-message {
+  font-style: italic;
+  color: #f1f1f1;
+  font-size: 1.2em;
+}
+
+@media (max-width: 600px) {
+  .weather-container {
+    padding: 10px;
+    max-width: 90%;
   }
-  
-  /* Desktop and Tablet views: Larger screens */
-  @media (min-width: 600px) {
-    .weather-title {
-      font-size: 2.5rem; /* Larger title for medium screens */
-    }
-  
-    .temperature {
-      font-size: 2.5rem; /* Larger temperature for medium screens */
-    }
-  
-    .humidity {
-      font-size: 2.5rem; /* Larger humidity text for medium screens */
-    }
+
+  .weather-data h2 {
+    font-size: 1.5em;
   }
-  
-  @media (min-width: 1024px) {
-    .weather-container {
-      max-width: 4000px; /* Increase max-width for better container size on large screens */
-      margin: 0 auto; /* Center the container */
-      padding: 30px;
-    }
-  
-    .weather-title {
-      font-size: 3rem; /* Larger title for desktop screens */
-    }
-  
-    .temperature {
-      font-size: 3rem; /* Larger temperature for desktop screens */
-    }
-  
-    .humidity {
-      font-size: 3rem; /* Larger humidity text for desktop screens */
-    }
-  
-    /* Loading spinner adjustments for larger screens */
-    .spinner {
-      width: 80px;
-      height: 80px;
-    }
+
+  .weather-data p {
+    font-size: 1em;
   }
-  
+}
