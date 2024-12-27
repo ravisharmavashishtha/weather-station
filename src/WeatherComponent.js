@@ -8,9 +8,9 @@ const WeatherComponent = () => {
   const [useFallback, setUseFallback] = useState(false); // Track whether fallback is used
   const [tempRange, setTempRange] = useState(null); // New state for highest and lowest temperatures
 
-  const API_URL = "/info"; // Primary API endpoint
-  const FALLBACK_API_URL = "/weather"; // Fallback API endpoint
-  const TEMP_DATA_URL = "/tempdata"; // New endpoint for highest and lowest temperature
+  const API_URL = "http://esp321-weather.local/info"; // Primary API endpoint
+  const FALLBACK_API_URL = "http://pn.local:5000/weather"; // Fallback API endpoint
+  const TEMP_DATA_URL = "http://pn.local:5000/tempdata"; // New endpoint for highest and lowest temperature
 
   // Function to format timestamp into human-readable date
   const formatTimestamp = (timestamp) => {
