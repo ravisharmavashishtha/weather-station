@@ -6,9 +6,11 @@ const WeatherComponent = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [error, setError] = useState(null);
   const [useFallback, setUseFallback] = useState(false); // Track whether fallback is used
+  const [tempRange, setTempRange] = useState(null); // New state for highest and lowest temperatures
 
   const API_URL = "/info"; // Primary API endpoint
   const FALLBACK_API_URL = "/weather"; // Fallback API endpoint
+  const TEMP_DATA_URL = "/tempdata"; // New endpoint for highest and lowest temperature
 
   // Function to format timestamp into human-readable date
   const formatTimestamp = (timestamp) => {
@@ -70,25 +72,59 @@ const WeatherComponent = () => {
     }
   };
 
+  // Function to fetch the highest and lowest temperatures for the day
+  const fetchTempRange = async () => {
+    try {
+      const response = await axios.get(TEMP_DATA_URL);
+      if (response.data && response.data.highest && response.data.lowest) {
+        setTempRange({
+          highest: response.data.highest,
+          lowest: response.data.lowest,
+        });
+      } else {
+        throw new Error("Malformed temperature range data received");
+      }
+    } catch (error) {
+      console.error("Error fetching temperature range data:", error);
+      setError("Failed to fetch temperature range data");
+    }
+  };
+
   useEffect(() => {
-    fetchWeather();
+    fetchWeather(); // Fetch current weather data
+    fetchTempRange(); // Fetch temperature range for the day
   }, []);
 
   return (
     <div className="weather-container">
       {error ? (
         <div className="error-message">{error}</div>
-      ) : weatherData ? (
-        <div className="weather-data">
-          <h2>Current Weather</h2>
-          <p>Temperature: {weatherData.temperature}°C</p>
-          <p>Humidity: {weatherData.humidity}%</p>
-          {useFallback && weatherData.timestamp && (
-            <p>Date: {formatTimestamp(weatherData.timestamp)}</p>
-          )}
-        </div>
       ) : (
-        <div className="loading-message">Loading...</div>
+        <>
+          <div className="weather-data">
+            <h2>Current Weather</h2>
+            {weatherData ? (
+              <>
+                <p>Temperature: {weatherData.temperature}°C</p>
+                <p>Humidity: {weatherData.humidity}%</p>
+                {useFallback && weatherData.timestamp && (
+                  <p>Date: {formatTimestamp(weatherData.timestamp)}</p>
+                )}
+              </>
+            ) : (
+              <div className="loading-message">Loading...</div>
+            )}
+          </div>
+
+          {/* New Section for Highest and Lowest Temperature */}
+          {tempRange && (
+            <div className="temp-range">
+              <h3>Temperature Range for Today</h3>
+              <p>Highest: {tempRange.highest}°C</p>
+              <p>Lowest: {tempRange.lowest}°C</p>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

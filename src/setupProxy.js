@@ -23,4 +23,16 @@ module.exports = function (app) {
       },
     })
   );
+
+
+  app.use(
+    '/tempdata',
+    createProxyMiddleware({
+      target: 'http://pn.local:5000/tempdata',
+      changeOrigin: true,
+      pathRewrite: {
+        '^/tempdata': '', // Optionally, rewrite the path if needed
+      },
+    })
+  );
 };

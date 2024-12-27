@@ -163,3 +163,56 @@
     font-size: 1em;
   }
 }
+
+/* Enhanced Temperature Range Section */
+.temp-range {
+  background-color: rgba(255, 255, 255, 0.1); /* Light semi-transparent background for consistency */
+  padding: 15px 25px; /* Added padding for spacing */
+  border-radius: 10px; /* Rounded corners to match the weather container */
+  margin-top: 20px; /* Space between other elements */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Light shadow for depth */
+  text-align: center; /* Centering text */
+  max-width: 100%; /* Ensure it takes full available width */
+  width: 100%; /* Ensures the range section takes full width inside container */
+}
+
+.temp-range h3 {
+  margin: 0; /* Remove any default margin */
+  font-size: 1.5rem; /* Match the font size of the weather title */
+  font-weight: bold;
+  color: #fcfdfe; /* Consistent color for text */
+  margin-bottom: 10px; /* Space between heading and text */
+}
+
+.temp-range p {
+  font-size: 1.2rem; /* Match the font size of the other data points */
+  color: #fcfdfe; /* Matching text color */
+  margin: 5px 0; /* Adequate spacing between temperature range lines */
+  font-weight: 400; /* Lighter font weight for the range details */
+}
+
+/* Optional: Add hover effect to the temp-range section to match container */
+.temp-range:hover {
+  transform: scale(1.05); /* Subtle hover effect */
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Media Queries for Larger Screens */
+@media (min-width: 600px) {
+  .temp-range h3 {
+    font-size: 2rem; /* Larger font size for medium screens */
+  }
+  .temp-range p {
+    font-size: 1.5rem; /* Larger text for temperature range on medium screens */
+  }
+}
+
+@media (min-width: 1024px) {
+  .temp-range h3 {
+    font-size: 2.5rem; /* Larger font size for desktop */
+  }
+  .temp-range p {
+    font-size: 1.8rem; /* Larger text for temperature range on desktop */
+  }
+}
+
